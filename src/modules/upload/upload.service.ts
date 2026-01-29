@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { supabase } from './supabase.provider';
-import * as sharp from 'sharp'; 
-import { imgConverterToWebp } from 'src/utils/imgConverterToWebp.util';
+import { imgConverterToWebp } from '@/utils/imgConverterToWebp.util';
 
 @Injectable()
 export class UploadService {
@@ -10,9 +9,9 @@ async uploadFile(file: Express.Multer.File) {
         const bufferWebp = await imgConverterToWebp(file);
         const { data, error } = await supabase.storage
             .from('uploads')
-            .upload(fileName, bufferWebp, { 
+            .upload(fileName, bufferWebp, {
                 contentType: 'image/webp',
-                upsert: true 
+                upsert: true
             });
 
         if (error) {
